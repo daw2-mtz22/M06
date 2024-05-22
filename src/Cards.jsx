@@ -7,7 +7,7 @@ export default function Cards(){
 
     useEffect(() => {
         const cargarDatos = async () => {
-            const response = await fetch('./src/assets/db.json');
+            const response = await fetch('/db.json');
             const data = await response.json();
             setHistorias(data.historias);
         };
