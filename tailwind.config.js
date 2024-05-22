@@ -9,7 +9,11 @@ export default {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      flexBasis: {
+        "1/3-gap-4": "calc(33.3% - (2/3 * 1rem))"
+      }
+    },
   },
   darkMode: "class",
   plugins: [nextui({
