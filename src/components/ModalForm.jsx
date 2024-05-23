@@ -15,7 +15,7 @@ import {ImageIcon} from "../assets/ImageIcon.jsx";
 import {GlobalContext} from "../context/GlobalContext.jsx";
 
 export default function ModalForm ({isVisible, setIsVisible, dataForm=null}) {
-    const { historias, dataHistoria, setDataHistoria } = useContext(GlobalContext);
+    const { historias, setHistorias, dataHistoria, setDataHistoria } = useContext(GlobalContext);
 
     const handleClose = () => {
         setDataHistoria({})
@@ -25,14 +25,36 @@ export default function ModalForm ({isVisible, setIsVisible, dataForm=null}) {
         setDataHistoria(
             {...dataHistoria, [field]:value})
     }
-    const controladorNuevaHistoria = (formHistoria)=>{
-        let nuevaHistoria = {id: historias.length +1, ...formHistoria}
-        console.log(`Historia sense id ha de ser creada: ${JSON.stringify(nuevaHistoria)}`)
+    const controladorNuevaHistoria = async (formHistoria)=>{
+        const response = await fetch('https://json-server-rouge-three.vercel.app/historias', {
+            method: 'POST',
+            //Sin este header no funciona, no sé envía como JSON
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formHistoria)
+        });
+        //Habría que poner alguna validacion
+
+        const nuevaHistoria = await response.json();
+
+        setHistorias([...historias, nuevaHistoria]);
     }
 
-    const controladorActualizaHistoria = (historia)=>{
-        historia.id ? console.log(`Historia  amb id ${historia.id} Actualizada: ${JSON.stringify(historia)}`) : console.log(`Historia sense id ha de ser creada: ${JSON.stringify(historia)}`)
-    }
+    const controladorActualizaHistoria = async (formHistoria)=>{
+        const response = await fetch(`https://json-server-rouge-three.vercel.app/historias/${formHistoria.id}`, {
+            method: 'PUT',
+            //Sin este header no funciona, no sé envía como JSON
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formHistoria)
+        });
+        //Habría que poner alguna validacion
+
+        const historiaActualizada = await response.json();
+
+        setHistorias(historias.map(historia=> historia.id === historiaActualizada.id ? historiaActualizada : historia));    }
     return (
         <>
             <Modal

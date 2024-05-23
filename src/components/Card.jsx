@@ -18,7 +18,6 @@ export default function CardComponent( {data, onOpen, onDelete}){
                 <div className="flex flex-grow gap-2 items-center">
                     <div className="flex flex-col">
                         <p className="text-tiny text-white/60">{data.experiencia}</p>
-                        <p className="text-tiny text-white/60">{'data.comentario'}</p>
                     </div>
                 </div>
                 <div className="flex gap-2 items-center">
