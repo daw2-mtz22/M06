@@ -9,9 +9,10 @@ export default function Cards(){
 
     useEffect(() => {
         const cargarDatos = async () => {
-            const response = await fetch('/db.json');
+            const response = await fetch('https://json-server-rouge-three.vercel.app/historias', {
+                method: 'GET'});
             const data = await response.json();
-            setHistorias(data.historias);
+            setHistorias(data);
         };
 
         cargarDatos()
@@ -20,8 +21,12 @@ export default function Cards(){
         setDataHistoria(historia)
         setModalVisible(true)
     }
-    const controladorBorrarHistoria  = (historiaId)=>{
-        console.log(`Borrando la Historia con Id:${historiaId}`)
+    const controladorBorrarHistoria  = async (historiaId)=>{
+        await fetch(`https://json-server-rouge-three.vercel.app/historias/${historiaId}`, {
+            method: 'DELETE'
+        });
+        //Habría que poner alguna validacion
+        setHistorias(historias.filter(historia => historia.id !== historiaId));
     }
     return (
                 <div className="flex flex-wrap gap-y-5 justify-start gap-4">
