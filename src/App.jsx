@@ -1,32 +1,23 @@
-import React, {useState} from 'react'
-
+import React from 'react'
 import './App.css'
-import Cards from "./components/Cards.jsx";
-import {Button} from "@nextui-org/react";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { GlobalProvider} from "./context/GlobalContext.jsx";
-import ModalForm from "./components/ModalForm.jsx";
+import Header from "./components/Header.jsx";
+import MisHistorias from "./vistas/MisHistorias.jsx";
+import GitLog from "./vistas/GitLog.jsx";
 
 
-function App() {
-    const [modalVisible, setModalVisible] = useState(false)
-
+export default function App() {
     return (
         <GlobalProvider>
-          <div className="flex flex-col gap-y-5 justify-center p-12">
-            <h1>Mis Historias</h1>
-            <div>
-                <Cards />
-            </div>
-            <div className='flex justify-end'>
-                <Button className="text-xl rounded-full" color="success" variant='solid' onClick={()=>setModalVisible(true)}>
-                Añadir Historia
-                </Button>
-
-            </div>
-              <ModalForm isVisible={modalVisible} setIsVisible={setModalVisible}/>
-          </div>
+            <Router>
+                <Header/>
+                <Routes>
+                    <Route path="/mishistorias" element={<MisHistorias />} />
+                    <Route path="/gitlog" element={<GitLog />} />
+                    <Route path="/" element={<MisHistorias />} />
+                </Routes>
+            </Router>
         </GlobalProvider>
   )
 }
-
-export default App
